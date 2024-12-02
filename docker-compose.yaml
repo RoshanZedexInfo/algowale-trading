@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  postgres:
+    container_name: alog-trade-db
+    image: postgres:17.0-alpine
+    volumes:
+      - alog-trade-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - ${DATABASE_PORT}:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+  
+  redis:
+    container_name: alog-trade-redis
+    image: redis:7.0-alpine
+    ports:
+      - ${REDIS_PORT}:6379
+volumes:
+  alog-trade-db:
