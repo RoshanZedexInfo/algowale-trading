@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { StartegyModule } from 'src/startegy/startegy.module';
+import { StartegyModule } from 'src/strategies/strategies.module';
 import { AlpacaController } from './alpaca.controller';
 import { AlpacaService } from './alpaca.service';
 

@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { IsString } from 'class-validator';
 import { envValidator } from 'src/utils/validators/env.validator';
+import { AlpacaConfig } from './config.type';
 
 class EnvironmentVariables {
   @IsString()

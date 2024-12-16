@@ -22,6 +22,9 @@ export class IsNotExist implements ValidatorConstraintInterface {
   ) {}
 
   async validate(value: string, validationArguments: ValidationArguments) {
+    if (this.dataSource == null) {
+      throw new Error('Data source not found');
+    }
     const repository = validationArguments.constraints[0] as string;
     const currentValue = validationArguments.object as ValidationEntity;
     const entity = (await this.dataSource.getRepository(repository).findOne({

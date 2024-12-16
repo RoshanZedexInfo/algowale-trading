@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
-import { StartegyService } from 'src/startegy/startegy.service';
+import { AlpacaConfig } from 'src/configs/config.type';
+import { StartegyService } from 'src/strategies/strategies.service';
 import { BarsRequestDto } from './dtos/barsRequest.dto';
 import { CreateOrderDto } from './dtos/createOrder.dto';
 

@@ -1,15 +1,23 @@
-enum AppEnv {
+export enum Environment {
   Development = 'development',
   staging = 'staging',
   Production = 'production',
 }
-interface AppConfig {
-  env: AppEnv;
+
+export type AppConfig = {
+  env: Environment;
   name: string;
   port: number;
-}
+};
 
-interface DatabaseConfig {
+export type AuthCofig = {
+  jwtSecret: string;
+  jwtExpires: string;
+  refreshSecret: string;
+  refreshExpires: string;
+};
+
+export type DatabaseConfig = {
   url: string;
   type: string;
   host: string;
@@ -19,23 +27,24 @@ interface DatabaseConfig {
   database: string;
   synchronize: boolean;
   maxConnections: number;
-}
+};
 
-interface RedisConfig {
+export type RedisConfig = {
   host: string;
   port: number;
   username?: string;
   password?: string;
-}
+};
 
-interface AlpacaConfig {
+export type AlpacaConfig = {
   apiKey: string;
   secretKey: string;
-}
+};
 
-interface Config {
+export type Config = {
   app: AppConfig;
+  auth: AuthCofig;
   database: DatabaseConfig;
   redis: RedisConfig;
   alpaca: AlpacaConfig;
-}
+};

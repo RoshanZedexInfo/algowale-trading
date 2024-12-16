@@ -9,6 +9,7 @@ import {
   ValidateIf,
 } from 'class-validator';
 import { envValidator } from 'src/utils/validators/env.validator';
+import { DatabaseConfig } from './config.type';
 
 class EnvironmentVariables {
   @ValidateIf((values) => values.DATABASE_URL)

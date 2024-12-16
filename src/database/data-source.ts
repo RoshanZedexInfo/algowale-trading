@@ -22,8 +22,8 @@ export const dataSourceOptions = {
       : false,
   dropSchema: false,
   logging: process.env.ENV !== 'production',
-  entities: [ENTITIES_DIRS],
-  migrations: [MIGRATIONS_DIRS],
+  entities: [__dirname + ENTITIES_DIRS],
+  migrations: [__dirname + MIGRATIONS_DIRS],
   migrationsTableName: MIGRATION_TABLE_NAME,
   cli: CLI_CONFIG,
   extra: {

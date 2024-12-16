@@ -3,27 +3,33 @@ import { BullBoardModule } from '@bull-board/nestjs';
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConnectionOptions } from 'bullmq';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { AlpacaController } from './alpaca/alpaca.controller';
 import { AlpacaModule } from './alpaca/alpaca.module';
-import { AlpacaService } from './alpaca/alpaca.service';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtStrategy } from './auth/stategies/jwt-strategy';
 import alpacaConfig from './configs/alpaca.config';
 import appConfig from './configs/app.config';
+import authConfig from './configs/auth.config';
 import databaseConfig from './configs/database.config';
 import redisConfig from './configs/redis.config';
 import { TypeOrmService } from './database/typeorm.service';
-import { StartegyModule } from './startegy/startegy.module';
-import { StartegyService } from './startegy/startegy.service';
+import { OrdersModule } from './orders/orders.module';
+import { QueueModule } from './queue/queue.module';
+import { SessionModule } from './session/session.module';
+import { StartegyModule } from './strategies/strategies.module';
+import { TradingBotModule } from './trading-bots/trading-bots.module';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, redisConfig, alpacaConfig],
+      load: [appConfig, authConfig, databaseConfig, redisConfig, alpacaConfig],
     }),
+    // ScheduleModule.forRoot(),
     BullModule.forRoot({
       connection: redisConfig as ConnectionOptions,
     }),
@@ -39,8 +45,19 @@ import { StartegyService } from './startegy/startegy.service';
     }),
     AlpacaModule,
     StartegyModule,
+    UsersModule,
+    TradingBotModule,
+    QueueModule,
+    OrdersModule,
+    AuthModule,
+    SessionModule,
   ],
-  controllers: [AppController, AlpacaController],
-  providers: [AppService, AlpacaService, StartegyService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    JwtStrategy,
+  ],
 })
 export class AppModule {}
