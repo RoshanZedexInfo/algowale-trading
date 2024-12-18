@@ -12,7 +12,7 @@ import {
   UNAUTHORIZED,
 } from 'src/constants/auth.constant';
 import { errorResponse } from 'src/utils/types/app-response.type';
-import { IS_PUBLIC_KEY } from './public.decorator';
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

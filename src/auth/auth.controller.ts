@@ -2,9 +2,9 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { ResponseDTO } from 'src/utils/types/route-response.type';
 import { AuthService } from './auth.service';
+import { Public } from './decorators/public.decorator';
 import { AuthRegisterLogin } from './dto/auth-register-login.dto';
 import { EmailLoginDto } from './dto/email-login.dto';
-import { Public } from './public.decorator';
 import { LoginResponseType } from './types/login-response.type';
 
 @Controller({

@@ -9,8 +9,7 @@ import { ConnectionOptions } from 'bullmq';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { AlpacaModule } from './alpaca/alpaca.module';
 import { AuthModule } from './auth/auth.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { JwtStrategy } from './auth/stategies/jwt-strategy';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import alpacaConfig from './configs/alpaca.config';
 import appConfig from './configs/app.config';
 import authConfig from './configs/auth.config';
@@ -23,6 +22,7 @@ import { SessionModule } from './session/session.module';
 import { StartegyModule } from './strategies/strategies.module';
 import { TradingBotModule } from './trading-bots/trading-bots.module';
 import { UsersModule } from './users/users.module';
+import { UserContextInterceptorModule } from './utils/interceptors/user-context/user-context-interceptor.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -51,13 +51,13 @@ import { UsersModule } from './users/users.module';
     OrdersModule,
     AuthModule,
     SessionModule,
+    UserContextInterceptorModule,
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    JwtStrategy,
   ],
 })
 export class AppModule {}
