@@ -10,6 +10,8 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { AlpacaModule } from './alpaca/alpaca.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { BrokerAuthsModule } from './broker-auths/broker-auths.module';
+import { BrokersModule } from './brokers/brokers.module';
 import alpacaConfig from './configs/alpaca.config';
 import appConfig from './configs/app.config';
 import authConfig from './configs/auth.config';
@@ -52,6 +54,8 @@ import { UserContextInterceptorModule } from './utils/interceptors/user-context/
     AuthModule,
     SessionModule,
     UserContextInterceptorModule,
+    BrokersModule,
+    BrokerAuthsModule,
   ],
   providers: [
     {

@@ -28,11 +28,13 @@ export class UsersController {
   }
 
   @Get('/:id')
+  @IsAdmin()
   async findOne(@Param('id') id: number) {
     return this.usersService.findOrFail(id);
   }
 
   @Post('/')
+  @IsAdmin()
   async create(@Body() user: CreateUserDto): Promise<ResponseDTO<User>> {
     const createdUser = await this.usersService.create(user);
     return {

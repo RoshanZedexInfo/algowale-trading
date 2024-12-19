@@ -5,6 +5,7 @@ import appConfig from 'src/configs/app.config';
 import databaseConfig from 'src/configs/database.config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { TypeOrmService } from '../typeorm.service';
+import { BrokerSeedModule } from './broker/broker-seed.module';
 import { StrategySeedModule } from './strategy/strategy-seed.module';
 import { UserSeedModule } from './user/user-seed.module';
 
@@ -12,6 +13,7 @@ import { UserSeedModule } from './user/user-seed.module';
   imports: [
     UserSeedModule,
     StrategySeedModule,
+    BrokerSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],

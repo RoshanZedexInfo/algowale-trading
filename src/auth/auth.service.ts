@@ -13,9 +13,11 @@ import { Session } from 'src/session/entities/session.entity';
 import { SessionService } from 'src/session/session.service';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { UserContext } from 'src/utils/contexts/user.context';
 import { timeMilliseconds } from 'src/utils/time-milliseconds';
 import { AuthRegisterLogin } from './dto/auth-register-login.dto';
 import { EmailLoginDto } from './dto/email-login.dto';
+import { JwtRefreshPayloadType } from './types/jwt-refresh-payload.type';
 import { LoginResponseType } from './types/login-response.type';
 
 @Injectable()
@@ -79,6 +81,49 @@ export class AuthService {
     return user;
   }
 
+  async refresh(
+    data: Pick<JwtRefreshPayloadType, 'sessionId'>,
+  ): Promise<Omit<LoginResponseType, 'user'>> {
+    const session = await this.sessionService.findOne({
+      where: {
+        id: data.sessionId,
+      },
+    });
+
+    if (!session) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: {
+            session: 'Session not found',
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const { token, refreshToken, expiresIn } = await this.getTokensData({
+      id: session.user.id,
+      role: session.user.role,
+      useremail: session.user.email,
+      sessionId: session.id,
+    });
+
+    return {
+      refreshToken,
+      token,
+      expiresIn,
+    };
+  }
+
+  async logout() {
+    const user = UserContext.currentUser;
+    await this.sessionService.softDelete({
+      id: user.sessionId,
+    });
+    return true;
+  }
+
   private async getTokensData(data: {
     id: User['id'];
     role: User['role'];
@@ -97,6 +142,7 @@ export class AuthService {
           id: data.id,
           role: data.role,
           useremail: data.useremail,
+          sessionId: data.sessionId,
         },
         {
           secret: this.configService.getOrThrow('auth.jwtSecret', {

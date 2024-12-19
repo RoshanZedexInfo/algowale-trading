@@ -13,6 +13,10 @@ export const INVALID_TOKEN = {
   slug: 'JsonWebTokenError',
   message: 'Invalid Token',
 };
+export const INVALID_TOKEN_SIGNATURE = {
+  slug: 'JsonWebTokenError',
+  message: 'Invalid Token Signature',
+};
 export const UNAUTHORIZED = {
   slug: 'Unauthorized',
   message: 'Unauthorized',
